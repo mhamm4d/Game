@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استودیو بازی‌سازی نکسوس</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background: #000;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.05) 0%, transparent 50%);
+        }
+        
+        .gaming-gradient {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gaming-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(0, 255, 255, 0.1) 50%, 
+                rgba(255, 0, 255, 0.1) 70%, 
+                transparent 90%);
+            animation: neonFlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes neonFlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        .game-card {
+            transition: all 0.4s ease;
+            background: linear-gradient(145deg, #0a0a0a, #1a1a2e);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                #008888, #880088, #888800, #008800, 
+                #880044, #440088, #008888);
+            background-size: 400% 400%;
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            animation: neonBorder 3s linear infinite;
+            transition: opacity 0.4s ease;
+        }
+        
+        .game-card:hover::before {
+            opacity: 1;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 0 30px rgba(0, 150, 150, 0.7),
+                0 0 60px rgba(150, 0, 150, 0.5),
+                0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-card:hover .game-poster {
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 255, 0.3),
+                inset 0 0 60px rgba(255, 0, 255, 0.2);
+        }
+        
+        @keyframes neonBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .neon-text {
+            text-shadow: 
+                0 0 5px #006666,
+                0 0 10px #006666,
+                0 0 15px #006666,
+                0 0 20px #006666,
+                0 0 35px #660066,
+                0 0 40px #660066;
+            animation: neonGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes neonGlow {
+            from {
+                text-shadow: 
+                    0 0 5px #006666,
+                    0 0 10px #006666,
+                    0 0 15px #006666,
+                    0 0 20px #006666,
+                    0 0 35px #660066,
+                    0 0 40px #660066;
+            }
+            to {
+                text-shadow: 
+                    0 0 2px #006666,
+                    0 0 5px #006666,
+                    0 0 8px #006666,
+                    0 0 12px #006666,
+                    0 0 18px #660066,
+                    0 0 25px #660066;
+            }
+        }
+        
+        .team-card {
+            background: linear-gradient(145deg, #0f0f23, #1a1a2e);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(0, 255, 255, 0.1), 
+                rgba(255, 0, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: inherit;
+        }
+        
+        .team-card:hover::before {
+            opacity: 1;
+        }
+        
+        .team-card:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.4),
+                0 15px 30px rgba(255, 0, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.6);
+        }
+        
+        .page-transition {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .back-btn:hover::before {
+            left: 100%;
+        }
+        
+        .back-btn:hover {
+            transform: translateX(-5px);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.6),
+                0 5px 15px rgba(255, 0, 255, 0.4);
+        }
+        
+        .neon-button {
+            background: transparent;
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .neon-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .neon-button:hover::before {
+            left: 100%;
+        }
+        
+        .neon-button:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.5),
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        .game-poster {
+            transition: all 0.4s ease;
+        }
+        
+        .neon-nav {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-nav button:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="neon-nav p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center relative z-10">
+            <h1 class="text-2xl font-bold neon-text cursor-pointer" onclick="showHome()">🎮 استودیو نکسوس</h1>
+            <div class="space-x-6 space-x-reverse">
+                <button onclick="showHome()" class="hover:text-cyan-300 transition-all duration-300">خانه</button>
+                <button onclick="scrollToTeam()" class="hover:text-cyan-300 transition-all duration-300">تیم ما</button>
+                <button onclick="scrollToGames()" class="hover:text-cyan-300 transition-all duration-300">بازی‌ها</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page-transition">
+        <!-- Hero Section -->
+        <section class="gaming-gradient py-20">
+            <div class="container mx-auto text-center px-4 relative z-10">
+                <h2 class="text-5xl font-bold mb-6 neon-text">به دنیای بازی‌های ما خوش آمدید</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">ما در استودیو نکسوس، بازی‌هایی خلق می‌کنیم که تجربه‌های فراموش‌نشدنی را برای شما به ارمغان می‌آورند</p>
+                <button onclick="scrollToGames()" class="neon-button px-8 py-3 rounded-full text-lg font-semibold">
+                    🎯 بازی‌ها را کاوش کنید
+                </button>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="teamSection" class="py-16 bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h3 class="text-4xl font-bold text-center mb-12 neon-text">🏆 تیم ما</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="team-card p-6 rounded-lg text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                            👨‍💻
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">علی احمدی</h4>
+                        <p class="text-cyan-300 mb-3">مدیر پروژه و طراح بازی</p>
+                        <p class="text-gray-300 text-sm">با ۸ سال تجربه در صنعت بازی‌سازی، رهبری تیم و خلق ایده‌های نوآورانه</p>
+                    </div>
+                    
+                    <div class="team-card p-6 rounded-lg text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                            🎨
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">سارا محمدی</h4>
+                        <p class="text-pink-300 mb-3">هنرمند و طراح گرافیک</p>
+                        <p class="text-gray-300 text-sm">متخصص در طراحی کاراکتر و محیط‌های بازی با سبک منحصر به فرد</p>
+                    </div>
+                    
+                    <div class="team-card p-6 rounded-lg text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                            ⚡
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">رضا کریمی</h4>
+                        <p class="text-yellow-300 mb-3">برنامه‌نویس ارشد</p>
+                        <p class="text-gray-300 text-sm">کارشناس موتورهای بازی و بهینه‌سازی عملکرد با تکنولوژی‌های روز</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Gallery -->
+        <section id="gamesSection" class="py-16 bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h3 class="text-4xl font-bold text-center mb-12 neon-text">🎮 بازی‌های ما</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Game 1 -->
+                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('shadowRealm')">
+                        <div class="game-poster h-48 bg-gradient-to-br from-purple-600 to-indigo-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                            <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                                <!-- Dark castle silhouette -->
+                                <defs>
+                                    <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#1a0033;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Background mountains -->
+                                <polygon points="0,150 50,100 100,120 150,80 200,100 200,200 0,200" fill="url(#shadowGrad)" opacity="0.7"/>
+                                <!-- Main castle -->
+                                <rect x="70" y="120" width="60" height="80" fill="#0a0a2e"/>
+                                <polygon points="70,120 85,100 115,100 130,120" fill="#1a1a3e"/>
+                                <!-- Towers -->
+                                <rect x="50" y="100" width="20" height="100" fill="#0a0a2e"/>
+                                <rect x="130" y="110" width="20" height="90" fill="#0a0a2e"/>
+                                <polygon points="50,100 60,80 70,100" fill="#1a1a3e"/>
+                                <polygon points="130,110 140,90 150,110" fill="#1a1a3e"/>
+                                <!-- Windows with purple glow -->
+                                <rect x="80" y="140" width="8" height="12" fill="#8b5cf6" opacity="0.8"/>
+                                <rect x="112" y="140" width="8" height="12" fill="#8b5cf6" opacity="0.8"/>
+                                <rect x="96" y="160" width="8" height="12" fill="#8b5cf6" opacity="0.8"/>
+                                <!-- Mystical orb -->
+                                <circle cx="100" cy="60" r="15" fill="#a855f7" opacity="0.6"/>
+                                <circle cx="100" cy="60" r="8" fill="#c084fc" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">قلمرو سایه‌ها</h4>
+                        <p class="text-gray-300 text-sm">یک بازی نقش‌آفرینی حماسی در دنیایی تاریک و مرموز</p>
+                        <div class="mt-4 flex justify-between text-sm">
+                            <span class="bg-purple-600 px-2 py-1 rounded">RPG</span>
+                            <span class="text-purple-300">⭐ 4.8/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 2 -->
+                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('cyberRush')">
+                        <div class="game-poster h-48 bg-gradient-to-br from-cyan-500 to-blue-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                            <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                                <defs>
+                                    <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#0891b2;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Cyber city background -->
+                                <rect x="0" y="0" width="200" height="200" fill="#0f172a"/>
+                                <!-- Buildings -->
+                                <rect x="10" y="120" width="15" height="80" fill="#1e293b"/>
+                                <rect x="30" y="100" width="20" height="100" fill="#334155"/>
+                                <rect x="55" y="130" width="12" height="70" fill="#1e293b"/>
+                                <rect x="150" y="110" width="18" height="90" fill="#334155"/>
+                                <rect x="175" y="125" width="15" height="75" fill="#1e293b"/>
+                                <!-- Neon lights on buildings -->
+                                <rect x="32" y="110" width="2" height="90" fill="#00ffff" opacity="0.8"/>
+                                <rect x="46" y="110" width="2" height="90" fill="#ff00ff" opacity="0.8"/>
+                                <rect x="152" y="120" width="2" height="80" fill="#00ffff" opacity="0.8"/>
+                                <!-- Robot figure -->
+                                <rect x="85" y="80" width="30" height="40" fill="#475569" rx="5"/>
+                                <!-- Robot head -->
+                                <rect x="90" y="60" width="20" height="25" fill="#64748b" rx="3"/>
+                                <!-- Glowing eyes -->
+                                <circle cx="95" cy="70" r="3" fill="#00ffff"/>
+                                <circle cx="105" cy="70" r="3" fill="#00ffff"/>
+                                <!-- Robot arms -->
+                                <rect x="75" y="85" width="8" height="25" fill="#475569" rx="2"/>
+                                <rect x="117" y="85" width="8" height="25" fill="#475569" rx="2"/>
+                                <!-- Robot legs -->
+                                <rect x="90" y="120" width="8" height="30" fill="#475569" rx="2"/>
+                                <rect x="102" y="120" width="8" height="30" fill="#475569" rx="2"/>
+                                <!-- Neon grid lines -->
+                                <line x1="0" y1="180" x2="200" y2="180" stroke="#00ffff" stroke-width="1" opacity="0.5"/>
+                                <line x1="0" y1="190" x2="200" y2="190" stroke="#ff00ff" stroke-width="1" opacity="0.3"/>
+                                <!-- Energy aura around robot -->
+                                <circle cx="100" cy="100" r="45" fill="none" stroke="#00ffff" stroke-width="2" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">سایبر راش</h4>
+                        <p class="text-gray-300 text-sm">بازی اکشن سریع در آینده‌ای سایبرپانک</p>
+                        <div class="mt-4 flex justify-between text-sm">
+                            <span class="bg-cyan-600 px-2 py-1 rounded">Action</span>
+                            <span class="text-cyan-300">⭐ 4.6/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 3 -->
+                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('mysticForest')">
+                        <div class="game-poster h-48 bg-gradient-to-br from-green-500 to-emerald-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                            <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                                <defs>
+                                    <linearGradient id="forestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#14532d;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Forest background -->
+                                <rect x="0" y="0" width="200" height="200" fill="url(#forestGrad)"/>
+                                <!-- Large trees -->
+                                <ellipse cx="40" cy="180" rx="25" ry="40" fill="#166534"/>
+                                <ellipse cx="160" cy="170" rx="30" ry="50" fill="#15803d"/>
+                                <ellipse cx="100" cy="160" rx="35" ry="60" fill="#166534"/>
+                                <!-- Tree trunks -->
+                                <rect x="35" y="160" width="10" height="40" fill="#92400e"/>
+                                <rect x="150" y="150" width="12" height="50" fill="#92400e"/>
+                                <rect x="92" y="140" width="16" height="60" fill="#92400e"/>
+                                <!-- Mystical lights -->
+                                <circle cx="60" cy="120" r="4" fill="#84cc16" opacity="0.8"/>
+                                <circle cx="140" cy="100" r="3" fill="#65a30d" opacity="0.9"/>
+                                <circle cx="80" cy="90" r="5" fill="#84cc16" opacity="0.7"/>
+                                <circle cx="120" cy="130" r="3" fill="#65a30d" opacity="0.8"/>
+                                <!-- Magical path -->
+                                <ellipse cx="100" cy="190" rx="40" ry="8" fill="#22c55e" opacity="0.4"/>
+                                <!-- Floating particles -->
+                                <circle cx="30" cy="80" r="2" fill="#84cc16" opacity="0.6"/>
+                                <circle cx="170" cy="60" r="1.5" fill="#65a30d" opacity="0.7"/>
+                                <circle cx="50" cy="50" r="2.5" fill="#84cc16" opacity="0.5"/>
+                                <!-- Ancient runes -->
+                                <circle cx="100" cy="40" r="15" fill="none" stroke="#84cc16" stroke-width="2" opacity="0.6"/>
+                                <polygon points="100,30 105,40 95,40" fill="#84cc16" opacity="0.6"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">جنگل اسرارآمیز</h4>
+                        <p class="text-gray-300 text-sm">ماجراجویی آرام و معماگونه در طبیعت جادویی</p>
+                        <div class="mt-4 flex justify-between text-sm">
+                            <span class="bg-green-600 px-2 py-1 rounded">Adventure</span>
+                            <span class="text-green-300">⭐ 4.9/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 4 -->
+                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('spaceOdyssey')">
+                        <div class="game-poster h-48 bg-gradient-to-br from-indigo-600 to-purple-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                            <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                                <defs>
+                                    <radialGradient id="spaceGrad" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" style="stop-color:#1e1b4b;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <!-- Space background -->
+                                <rect x="0" y="0" width="200" height="200" fill="url(#spaceGrad)"/>
+                                <!-- Stars -->
+                                <circle cx="20" cy="30" r="1" fill="#ffffff" opacity="0.8"/>
+                                <circle cx="180" cy="40" r="1.5" fill="#ffffff" opacity="0.9"/>
+                                <circle cx="160" cy="20" r="1" fill="#ffffff" opacity="0.7"/>
+                                <circle cx="40" cy="60" r="1" fill="#ffffff" opacity="0.8"/>
+                                <circle cx="170" cy="180" r="1.5" fill="#ffffff" opacity="0.9"/>
+                                <circle cx="30" cy="170" r="1" fill="#ffffff" opacity="0.6"/>
+                                <!-- Distant planet -->
+                                <circle cx="160" cy="60" r="25" fill="#4c1d95" opacity="0.7"/>
+                                <ellipse cx="160" cy="60" rx="25" ry="5" fill="#6d28d9" opacity="0.5"/>
+                                <!-- Spaceship -->
+                                <ellipse cx="100" cy="120" rx="30" ry="8" fill="#64748b"/>
+                                <ellipse cx="100" cy="118" rx="25" ry="6" fill="#94a3b8"/>
+                                <!-- Spaceship details -->
+                                <rect x="85" y="115" width="30" height="6" fill="#475569" rx="3"/>
+                                <circle cx="90" cy="118" r="2" fill="#06b6d4" opacity="0.8"/>
+                                <circle cx="110" cy="118" r="2" fill="#06b6d4" opacity="0.8"/>
+                                <!-- Engine glow -->
+                                <ellipse cx="70" cy="120" rx="8" ry="4" fill="#06b6d4" opacity="0.6"/>
+                                <ellipse cx="130" cy="120" rx="8" ry="4" fill="#06b6d4" opacity="0.6"/>
+                                <!-- Energy trail -->
+                                <ellipse cx="50" cy="122" rx="15" ry="3" fill="#06b6d4" opacity="0.4"/>
+                                <ellipse cx="150" cy="122" rx="15" ry="3" fill="#06b6d4" opacity="0.4"/>
+                                <!-- Nebula -->
+                                <ellipse cx="80" cy="80" rx="20" ry="15" fill="#7c3aed" opacity="0.3"/>
+                                <ellipse cx="120" cy="160" rx="25" ry="18" fill="#c084fc" opacity="0.2"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">ادیسه فضایی</h4>
+                        <p class="text-gray-300 text-sm">شبیه‌ساز فضایی با کاوش کهکشان‌های بی‌نهایت</p>
+                        <div class="mt-4 flex justify-between text-sm">
+                            <span class="bg-indigo-600 px-2 py-1 rounded">Simulation</span>
+                            <span class="text-indigo-300">⭐ 4.7/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 5 -->
+                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('dragonLegends')">
+                        <div class="game-poster h-48 bg-gradient-to-br from-red-600 to-orange-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                            <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                                <defs>
+                                    <linearGradient id="dragonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#7f1d1d;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Fiery background -->
+                                <rect x="0" y="0" width="200" height="200" fill="url(#dragonGrad)"/>
+                                <!-- Mountain silhouettes -->
+                                <polygon points="0,150 40,120 80,140 120,110 160,130 200,120 200,200 0,200" fill="#451a03" opacity="0.8"/>
+                                <!-- Dragon body -->
+                                <ellipse cx="100" cy="100" rx="40" ry="15" fill="#991b1b"/>
+                                <!-- Dragon head -->
+                                <ellipse cx="140" cy="90" rx="20" ry="18" fill="#b91c1c"/>
+                                <!-- Dragon neck -->
+                                <ellipse cx="120" cy="95" rx="15" ry="10" fill="#991b1b"/>
+                                <!-- Dragon eye -->
+                                <circle cx="145" cy="85" r="4" fill="#fbbf24"/>
+                                <circle cx="145" cy="85" r="2" fill="#000000"/>
+                                <!-- Dragon wings -->
+                                <ellipse cx="80" cy="80" rx="25" ry="35" fill="#7f1d1d" opacity="0.8"/>
+                                <ellipse cx="120" cy="75" rx="20" ry="30" fill="#7f1d1d" opacity="0.8"/>
+                                <!-- Wing details -->
+                                <path d="M 60 70 Q 80 60 100 80 Q 80 90 60 100 Z" fill="#450a0a" opacity="0.6"/>
+                                <path d="M 105 60 Q 120 50 135 70 Q 120 80 105 85 Z" fill="#450a0a" opacity="0.6"/>
+                                <!-- Dragon tail -->
+                                <ellipse cx="60" cy="110" rx="20" ry="8" fill="#991b1b"/>
+                                <ellipse cx="40" cy="115" rx="12" ry="6" fill="#7f1d1d"/>
+                                <!-- Fire breath -->
+                                <ellipse cx="165" cy="85" rx="15" ry="8" fill="#f59e0b" opacity="0.8"/>
+                                <ellipse cx="180" cy="80" rx="10" ry="6" fill="#fbbf24" opacity="0.9"/>
+                                <ellipse cx="190" cy="78" rx="6" ry="4" fill="#fde047" opacity="0.7"/>
+                                <!-- Magical aura -->
+                                <circle cx="100" cy="100" r="60" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">افسانه اژدهایان</h4>
+                        <p class="text-gray-300 text-sm">بازی استراتژیک با اژدهایان و جادوگری</p>
+                        <div class="mt-4 flex justify-between text-sm">
+                            <span class="bg-red-600 px-2 py-1 rounded">Strategy</span>
+                            <span class="text-red-300">⭐ 4.5/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 6 -->
+                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('neonRacer')">
+                        <div class="game-poster h-48 bg-gradient-to-br from-pink-500 to-violet-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                            <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                                <defs>
+                                    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#be185d;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#5b21b6;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Neon city background -->
+                                <rect x="0" y="0" width="200" height="200" fill="url(#neonGrad)"/>
+                                <!-- Road -->
+                                <polygon points="0,180 200,180 180,200 20,200" fill="#1f2937"/>
+                                <!-- Road lines -->
+                                <rect x="90" y="180" width="20" height="4" fill="#fbbf24" opacity="0.8"/>
+                                <rect x="70" y="185" width="15" height="3" fill="#fbbf24" opacity="0.6"/>
+                                <rect x="115" y="185" width="15" height="3" fill="#fbbf24" opacity="0.6"/>
+                                <!-- Futuristic car -->
+                                <ellipse cx="100" cy="150" rx="35" ry="12" fill="#374151"/>
+                                <ellipse cx="100" cy="148" rx="30" ry="10" fill="#4b5563"/>
+                                <!-- Car details -->
+                                <rect x="75" y="145" width="50" height="8" fill="#6b7280" rx="4"/>
+                                <rect x="80" y="147" width="40" height="4" fill="#9ca3af" rx="2"/>
+                                <!-- Neon underglow -->
+                                <ellipse cx="100" cy="160" rx="40" ry="6" fill="#ec4899" opacity="0.6"/>
+                                <!-- Headlights -->
+                                <circle cx="85" cy="145" r="3" fill="#06b6d4"/>
+                                <circle cx="115" cy="145" r="3" fill="#06b6d4"/>
+                                <!-- Speed lines -->
+                                <line x1="20" y1="140" x2="60" y2="145" stroke="#ec4899" stroke-width="2" opacity="0.7"/>
+                                <line x1="15" y1="150" x2="55" y2="155" stroke="#a855f7" stroke-width="2" opacity="0.6"/>
+                                <line x1="25" y1="160" x2="65" y2="165" stroke="#ec4899" stroke-width="2" opacity="0.5"/>
+                                <!-- Neon buildings -->
+                                <rect x="10" y="80" width="15" height="100" fill="#1f2937"/>
+                                <rect x="30" y="60" width="20" height="120" fill="#374151"/>
+                                <rect x="160" y="70" width="18" height="110" fill="#1f2937"/>
+                                <rect x="180" y="50" width="15" height="130" fill="#374151"/>
+                                <!-- Neon signs -->
+                                <rect x="12" y="90" width="2" height="80" fill="#ec4899" opacity="0.8"/>
+                                <rect x="32" y="70" width="2" height="100" fill="#06b6d4" opacity="0.8"/>
+                                <rect x="162" y="80" width="2" height="90" fill="#a855f7" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">مسابقه نئونی</h4>
+                        <p class="text-gray-300 text-sm">بازی مسابقه‌ای با سرعت بالا در شهر آینده</p>
+                        <div class="mt-4 flex justify-between text-sm">
+                            <span class="bg-pink-600 px-2 py-1 rounded">Racing</span>
+                            <span class="text-pink-300">⭐ 4.4/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Media Footer -->
+        <footer class="py-16 bg-black border-t border-gray-800">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="text-3xl font-bold mb-8 neon-text">🌐 ما را دنبال کنید</h3>
+                <div class="flex justify-center gap-8 mb-8">
+                    <!-- Instagram - اینجا لینک اینستاگرام خودتون رو بذارید -->
+                    <a href="https://instagram.com/_mhmd_al_" class="social-icon group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-pink-500/50">
+                            📷
+                        </div>
+                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-pink-400 transition-colors">Instagram</span>
+                    </a>
+                    
+                    <!-- Telegram - اینجا لینک تلگرام خودتون رو بذارید -->
+                    <a href="https://t.me/Psychosips" class="social-icon group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-500/50">
+                            ✈️
+                        </div>
+                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-cyan-400 transition-colors">Telegram</span>
+                    </a>
+                    
+                    <!-- Twitter - اینجا لینک توییتر خودتون رو بذارید -->
+                    <a href="https://twitter.com/TheCnn3r" class="social-icon group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/50">
+                            🐦
+                        </div>
+                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-blue-400 transition-colors">Twitter</span>
+                    </a>
+                    
+                    <!-- YouTube - اینجا لینک یوتیوب خودتون رو بذارید -->
+                    <a href="https://youtube.com/@mhammad4307" class="social-icon group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-red-500/50">
+                            📺
+                        </div>
+                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-red-400 transition-colors">YouTube</span>
+                    </a>
+                    
+                    <!-- Discord - اینجا لینک دیسکورد خودتون رو بذارید -->
+                    <a href="https://discord.gg/psycho.mind" class="social-icon group">
+                        <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-purple-500/50">
+                            🎮
+                        </div>
+                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-purple-400 transition-colors">Discord</span>
+                    </a>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-500 mb-2">© 2024 استودیو بازی‌سازی نکسوس. تمامی حقوق محفوظ است.</p>
+                    <p class="text-gray-600 text-sm">ساخته شده با ❤️ برای گیمرهای ایرانی</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Game Detail Pages -->
+    <div id="gameDetailPage" class="hidden page-transition">
+        <div class="container mx-auto px-4 py-8">
+            <button onclick="showHome()" class="back-btn px-6 py-3 rounded-full mb-8 flex items-center gap-2 text-white font-semibold">
+                ← بازگشت به خانه
+            </button>
+            <div id="gameDetailContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const games = {
+            shadowRealm: {
+                title: "قلمرو سایه‌ها",
+                icon: "🏰",
+                genre: "نقش‌آفرینی (RPG)",
+                gameplay: "45-60 ساعت",
+                rating: "4.8/5",
+                gradient: "from-purple-600 to-indigo-800",
+                poster: `<svg viewBox="0 0 96 96" class="w-full h-full">
+                    <defs>
+                        <linearGradient id="shadowDetailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1a0033;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="96" height="96" fill="url(#shadowDetailGrad)"/>
+                    <polygon points="0,72 24,48 48,58 72,38 96,48 96,96 0,96" fill="#0a0a2e" opacity="0.7"/>
+                    <rect x="33" y="58" width="30" height="38" fill="#0a0a2e"/>
+                    <polygon points="33,58 42,48 54,48 63,58" fill="#1a1a3e"/>
+                    <rect x="24" y="48" width="10" height="48" fill="#0a0a2e"/>
+                    <rect x="62" y="53" width="10" height="43" fill="#0a0a2e"/>
+                    <polygon points="24,48 29,38 34,48" fill="#1a1a3e"/>
+                    <polygon points="62,53 67,43 72,53" fill="#1a1a3e"/>
+                    <rect x="38" y="67" width="4" height="6" fill="#8b5cf6" opacity="0.8"/>
+                    <rect x="54" y="67" width="4" height="6" fill="#8b5cf6" opacity="0.8"/>
+                    <rect x="46" y="77" width="4" height="6" fill="#8b5cf6" opacity="0.8"/>
+                    <circle cx="48" cy="29" r="7" fill="#a855f7" opacity="0.6"/>
+                    <circle cx="48" cy="29" r="4" fill="#c084fc" opacity="0.8"/>
+                </svg>`,
+                story: "در دنیایی که نور از آن رخت بربسته، شما در نقش یک جنگجوی باستانی باید اسرار تاریکی را کشف کنید. قلمرو سایه‌ها داستان حماسی‌ای از قدرت، فداکاری و امید است. با سیستم جادوگری پیچیده و داستان غنی، این بازی تجربه‌ای فراموش‌نشدنی ارائه می‌دهد.",
+                features: ["سیستم جادوگری پیشرفته", "داستان غیرخطی با انتخاب‌های مهم", "دنیای باز وسیع", "کاراکترهای قابل تنظیم"]
+            },
+            cyberRush: {
+                title: "سایبر راش",
+                icon: "🤖",
+                genre: "اکشن",
+                gameplay: "20-25 ساعت",
+                rating: "4.6/5",
+                gradient: "from-cyan-500 to-blue-700",
+                poster: `<svg viewBox="0 0 96 96" class="w-full h-full">
+                    <defs>
+                        <linearGradient id="cyberDetailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#0891b2;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="96" height="96" fill="#0f172a"/>
+                    <rect x="5" y="58" width="7" height="38" fill="#1e293b"/>
+                    <rect x="14" y="48" width="10" height="48" fill="#334155"/>
+                    <rect x="26" y="62" width="6" height="34" fill="#1e293b"/>
+                    <rect x="72" y="53" width="9" height="43" fill="#334155"/>
+                    <rect x="84" y="60" width="7" height="36" fill="#1e293b"/>
+                    <rect x="15" y="53" width="1" height="43" fill="#00ffff" opacity="0.8"/>
+                    <rect x="22" y="53" width="1" height="43" fill="#ff00ff" opacity="0.8"/>
+                    <rect x="73" y="58" width="1" height="38" fill="#00ffff" opacity="0.8"/>
+                    <rect x="41" y="38" width="14" height="19" fill="#475569" rx="2"/>
+                    <rect x="43" y="29" width="10" height="12" fill="#64748b" rx="1"/>
+                    <circle cx="46" cy="34" r="1.5" fill="#00ffff"/>
+                    <circle cx="50" cy="34" r="1.5" fill="#00ffff"/>
+                    <rect x="36" y="41" width="4" height="12" fill="#475569" rx="1"/>
+                    <rect x="56" y="41" width="4" height="12" fill="#475569" rx="1"/>
+                    <rect x="43" y="57" width="4" height="14" fill="#475569" rx="1"/>
+                    <rect x="49" y="57" width="4" height="14" fill="#475569" rx="1"/>
+                    <line x1="0" y1="86" x2="96" y2="86" stroke="#00ffff" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="0" y1="91" x2="96" y2="91" stroke="#ff00ff" stroke-width="0.5" opacity="0.3"/>
+                    <circle cx="48" cy="48" r="22" fill="none" stroke="#00ffff" stroke-width="1" opacity="0.3"/>
+                </svg>`,
+                story: "در سال 2087، شهرهای آینده تحت کنترل شرکت‌های بزرگ قرار گرفته‌اند. شما در نقش یک هکر مخفی باید علیه سیستم مبارزه کنید. با اکشن سریع، پارکور شهری و تکنولوژی پیشرفته، سایبر راش شما را به قلب یک انقلاب دیجیتال می‌برد.",
+                features: ["مبارزات سریع و روان", "پارکور در محیط شهری", "سیستم هک کردن", "گرافیک نئون خیره‌کننده"]
+            },
+            mysticForest: {
+                title: "جنگل اسرارآمیز",
+                icon: "🌲",
+                genre: "ماجراجویی",
+                gameplay: "15-20 ساعت",
+                rating: "4.9/5",
+                gradient: "from-green-500 to-emerald-700",
+                poster: `<svg viewBox="0 0 96 96" class="w-full h-full">
+                    <defs>
+                        <linearGradient id="forestDetailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#14532d;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="96" height="96" fill="url(#forestDetailGrad)"/>
+                    <ellipse cx="19" cy="86" rx="12" ry="19" fill="#166534"/>
+                    <ellipse cx="77" cy="82" rx="14" ry="24" fill="#15803d"/>
+                    <ellipse cx="48" cy="77" rx="17" ry="29" fill="#166534"/>
+                    <rect x="17" y="77" width="5" height="19" fill="#92400e"/>
+                    <rect x="72" y="72" width="6" height="24" fill="#92400e"/>
+                    <rect x="44" y="67" width="8" height="29" fill="#92400e"/>
+                    <circle cx="29" cy="58" r="2" fill="#84cc16" opacity="0.8"/>
+                    <circle cx="67" cy="48" r="1.5" fill="#65a30d" opacity="0.9"/>
+                    <circle cx="38" cy="43" r="2.5" fill="#84cc16" opacity="0.7"/>
+                    <circle cx="58" cy="62" r="1.5" fill="#65a30d" opacity="0.8"/>
+                    <ellipse cx="48" cy="91" rx="19" ry="4" fill="#22c55e" opacity="0.4"/>
+                    <circle cx="14" cy="38" r="1" fill="#84cc16" opacity="0.6"/>
+                    <circle cx="82" cy="29" r="0.8" fill="#65a30d" opacity="0.7"/>
+                    <circle cx="24" cy="24" r="1.2" fill="#84cc16" opacity="0.5"/>
+                    <circle cx="48" cy="19" r="7" fill="none" stroke="#84cc16" stroke-width="1" opacity="0.6"/>
+                    <polygon points="48,14 50,19 46,19" fill="#84cc16" opacity="0.6"/>
+                </svg>`,
+                story: "در عمق جنگلی جادویی، اسرار باستانی منتظر کشف شدن هستند. این بازی آرام و تأمل‌برانگیز، شما را در سفری معنوی همراهی می‌کند. با حل معماهای طبیعی و تعامل با موجودات جنگل، راز‌های پنهان این دنیای سبز را کشف کنید.",
+                features: ["گیم‌پلی آرام و مدیتیو", "معماهای خلاقانه", "موسیقی آرامش‌بخش", "هنر زیبای hand-drawn"]
+            },
+            spaceOdyssey: {
+                title: "ادیسه فضایی",
+                icon: "🚀",
+                genre: "شبیه‌سازی",
+                gameplay: "100+ ساعت",
+                rating: "4.7/5",
+                gradient: "from-indigo-600 to-purple-800",
+                poster: `<svg viewBox="0 0 96 96" class="w-full h-full">
+                    <defs>
+                        <radialGradient id="spaceDetailGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#1e1b4b;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
+                    <rect x="0" y="0" width="96" height="96" fill="url(#spaceDetailGrad)"/>
+                    <circle cx="10" cy="14" r="0.5" fill="#ffffff" opacity="0.8"/>
+                    <circle cx="86" cy="19" r="0.8" fill="#ffffff" opacity="0.9"/>
+                    <circle cx="77" cy="10" r="0.5" fill="#ffffff" opacity="0.7"/>
+                    <circle cx="19" cy="29" r="0.5" fill="#ffffff" opacity="0.8"/>
+                    <circle cx="82" cy="86" r="0.8" fill="#ffffff" opacity="0.9"/>
+                    <circle cx="14" cy="82" r="0.5" fill="#ffffff" opacity="0.6"/>
+                    <circle cx="77" cy="29" r="12" fill="#4c1d95" opacity="0.7"/>
+                    <ellipse cx="77" cy="29" rx="12" ry="2" fill="#6d28d9" opacity="0.5"/>
+                    <ellipse cx="48" cy="58" rx="14" ry="4" fill="#64748b"/>
+                    <ellipse cx="48" cy="57" rx="12" ry="3" fill="#94a3b8"/>
+                    <rect x="41" y="55" width="14" height="3" fill="#475569" rx="1"/>
+                    <circle cx="43" cy="57" r="1" fill="#06b6d4" opacity="0.8"/>
+                    <circle cx="53" cy="57" r="1" fill="#06b6d4" opacity="0.8"/>
+                    <ellipse cx="34" cy="58" rx="4" ry="2" fill="#06b6d4" opacity="0.6"/>
+                    <ellipse cx="62" cy="58" rx="4" ry="2" fill="#06b6d4" opacity="0.6"/>
+                    <ellipse cx="24" cy="59" rx="7" ry="1.5" fill="#06b6d4" opacity="0.4"/>
+                    <ellipse cx="72" cy="59" rx="7" ry="1.5" fill="#06b6d4" opacity="0.4"/>
+                    <ellipse cx="38" cy="38" rx="10" ry="7" fill="#7c3aed" opacity="0.3"/>
+                    <ellipse cx="58" cy="77" rx="12" ry="9" fill="#c084fc" opacity="0.2"/>
+                </svg>`,
+                story: "کهکشان‌های بی‌نهایت منتظر کاوش شما هستند. در این شبیه‌ساز فضایی جامع، سفینه خود را بسازید، سیارات را کاوش کنید و با تمدن‌های بیگانه ارتباط برقرار کنید. هر سفر داستانی منحصر به فرد خواهد بود.",
+                features: ["کهکشان بی‌نهایت قابل کاوش", "ساخت و تنظیم سفینه", "تجارت بین‌سیاره‌ای", "کشف تمدن‌های جدید"]
+            },
+            dragonLegends: {
+                title: "افسانه اژدهایان",
+                icon: "🐉",
+                genre: "استراتژی",
+                gameplay: "30-40 ساعت",
+                rating: "4.5/5",
+                gradient: "from-red-600 to-orange-700",
+                poster: `<svg viewBox="0 0 96 96" class="w-full h-full">
+                    <defs>
+                        <linearGradient id="dragonDetailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#7f1d1d;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="96" height="96" fill="url(#dragonDetailGrad)"/>
+                    <polygon points="0,72 19,58 38,67 58,53 77,62 96,58 96,96 0,96" fill="#451a03" opacity="0.8"/>
+                    <ellipse cx="48" cy="48" rx="19" ry="7" fill="#991b1b"/>
+                    <ellipse cx="67" cy="43" rx="10" ry="9" fill="#b91c1c"/>
+                    <ellipse cx="58" cy="46" rx="7" ry="5" fill="#991b1b"/>
+                    <circle cx="70" cy="41" r="2" fill="#fbbf24"/>
+                    <circle cx="70" cy="41" r="1" fill="#000000"/>
+                    <ellipse cx="38" cy="38" rx="12" ry="17" fill="#7f1d1d" opacity="0.8"/>
+                    <ellipse cx="58" cy="36" rx="10" ry="14" fill="#7f1d1d" opacity="0.8"/>
+                    <path d="M 29 34 Q 38 29 48 38 Q 38 43 29 48 Z" fill="#450a0a" opacity="0.6"/>
+                    <path d="M 50 29 Q 58 24 65 34 Q 58 38 50 41 Z" fill="#450a0a" opacity="0.6"/>
+                    <ellipse cx="29" cy="53" rx="10" ry="4" fill="#991b1b"/>
+                    <ellipse cx="19" cy="55" rx="6" ry="3" fill="#7f1d1d"/>
+                    <ellipse cx="79" cy="41" rx="7" ry="4" fill="#f59e0b" opacity="0.8"/>
+                    <ellipse cx="86" cy="38" rx="5" ry="3" fill="#fbbf24" opacity="0.9"/>
+                    <ellipse cx="91" cy="37" rx="3" ry="2" fill="#fde047" opacity="0.7"/>
+                    <circle cx="48" cy="48" r="29" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+                </svg>`,
+                story: "در عصری که اژدهایان بر آسمان‌ها حکمرانی می‌کردند، شما باید امپراتوری خود را بنا کنید. با تربیت اژدهایان، ساخت قلعه‌ها و رهبری ارتش‌ها، راه خود را به تاج و تخت هموار کنید. استراتژی و دیپلماسی کلید پیروزی است.",
+                features: ["تربیت و آموزش اژدهایان", "ساخت و مدیریت شهر", "نبردهای استراتژیک", "سیستم جادوگری پیچیده"]
+            },
+            neonRacer: {
+                title: "مسابقه نئونی",
+                icon: "🏎️",
+                genre: "مسابقه‌ای",
+                gameplay: "12-15 ساعت",
+                rating: "4.4/5",
+                gradient: "from-pink-500 to-violet-700",
+                poster: `<svg viewBox="0 0 96 96" class="w-full h-full">
+                    <defs>
+                        <linearGradient id="neonDetailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#be185d;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#5b21b6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="96" height="96" fill="url(#neonDetailGrad)"/>
+                    <polygon points="0,86 96,86 86,96 10,96" fill="#1f2937"/>
+                    <rect x="43" y="86" width="10" height="2" fill="#fbbf24" opacity="0.8"/>
+                    <rect x="34" y="89" width="7" height="1.5" fill="#fbbf24" opacity="0.6"/>
+                    <rect x="55" y="89" width="7" height="1.5" fill="#fbbf24" opacity="0.6"/>
+                    <ellipse cx="48" cy="72" rx="17" ry="6" fill="#374151"/>
+                    <ellipse cx="48" cy="71" rx="14" ry="5" fill="#4b5563"/>
+                    <rect x="36" y="69" width="24" height="4" fill="#6b7280" rx="2"/>
+                    <rect x="38" y="70" width="20" height="2" fill="#9ca3af" rx="1"/>
+                    <ellipse cx="48" cy="77" rx="19" ry="3" fill="#ec4899" opacity="0.6"/>
+                    <circle cx="41" cy="69" r="1.5" fill="#06b6d4"/>
+                    <circle cx="55" cy="69" r="1.5" fill="#06b6d4"/>
+                    <line x1="10" y1="67" x2="29" y2="70" stroke="#ec4899" stroke-width="1" opacity="0.7"/>
+                    <line x1="7" y1="72" x2="26" y2="74" stroke="#a855f7" stroke-width="1" opacity="0.6"/>
+                    <line x1="12" y1="77" x2="31" y2="79" stroke="#ec4899" stroke-width="1" opacity="0.5"/>
+                    <rect x="5" y="38" width="7" height="48" fill="#1f2937"/>
+                    <rect x="14" y="29" width="10" height="58" fill="#374151"/>
+                    <rect x="77" y="34" width="9" height="53" fill="#1f2937"/>
+                    <rect x="86" y="24" width="7" height="62" fill="#374151"/>
+                    <rect x="6" y="43" width="1" height="38" fill="#ec4899" opacity="0.8"/>
+                    <rect x="15" y="34" width="1" height="48" fill="#06b6d4" opacity="0.8"/>
+                    <rect x="78" y="38" width="1" height="43" fill="#a855f7" opacity="0.8"/>
+                </svg>`,
+                story: "در شهرهای آینده که شب‌ها با نور نئون روشن می‌شوند، مسابقات غیرقانونی اتومبیل‌رانی برگزار می‌شود. با ماشین‌های فوق پیشرفته و مسیرهای خطرناک، خود را به قله مسابقات برسانید. سرعت، مهارت و جسارت تنها راه پیروزی است.",
+                features: ["ماشین‌های قابل تنظیم", "مسیرهای متنوع شهری", "حالت چندنفره آنلاین", "سیستم تیونینگ پیشرفته"]
+            }
+        };
+
+        function showHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('gameDetailPage').classList.add('hidden');
+            document.getElementById('homePage').classList.add('page-transition');
+        }
+
+        function showGameDetail(gameId) {
+            const game = games[gameId];
+            if (!game) return;
+
+            const content = `
+                <div class="bg-gradient-to-r ${game.gradient} p-8 rounded-lg mb-8 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                    <div class="flex items-center gap-6 mb-6 relative z-10">
+                        <div class="w-24 h-24 rounded-lg overflow-hidden border-2 border-white/30">${game.poster}</div>
+                        <div>
+                            <h1 class="text-4xl font-bold mb-2 neon-text">${game.title}</h1>
+                            <div class="flex gap-4 text-lg">
+                                <span class="bg-black bg-opacity-30 px-3 py-1 rounded">🎮 ${game.genre}</span>
+                                <span class="bg-black bg-opacity-30 px-3 py-1 rounded">⏱️ ${game.gameplay}</span>
+                                <span class="bg-black bg-opacity-30 px-3 py-1 rounded">⭐ ${game.rating}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg border border-cyan-500/30 hover:border-cyan-500/60 transition-all duration-300">
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-300">📖 داستان بازی</h3>
+                        <p class="text-gray-300 leading-relaxed">${game.story}</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-6 rounded-lg border border-pink-500/30 hover:border-pink-500/60 transition-all duration-300">
+                        <h3 class="text-2xl font-bold mb-4 text-pink-300">✨ ویژگی‌های کلیدی</h3>
+                        <ul class="space-y-2">
+                            ${game.features.map(feature => `
+                                <li class="flex items-center gap-2 text-gray-300">
+                                    <span class="text-pink-400">▶</span>
+                                    ${feature}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-gradient-to-r from-cyan-600/20 to-pink-600/20 p-6 rounded-lg text-center border border-cyan-500/30">
+                    <h3 class="text-2xl font-bold mb-4 neon-text">🎯 آماده برای تجربه؟</h3>
+                    <p class="mb-4">این بازی در حال توسعه است و به زودی منتشر خواهد شد!</p>
+                    <div id="notifyForm-${gameId}" class="space-y-4">
+                        <button onclick="showEmailForm('${gameId}')" class="neon-button px-6 py-3 rounded-full font-bold">
+                            🔔 از انتشار مطلع شوید
+                        </button>
+                        <div id="emailForm-${gameId}" class="hidden mt-4 space-y-3">
+                            <input type="email" id="userEmail-${gameId}" placeholder="ایمیل خود را وارد کنید..." 
+                                   class="w-full max-w-md mx-auto px-4 py-3 bg-gray-800 border border-cyan-500/50 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30">
+                            <div class="flex gap-3 justify-center">
+                                <button onclick="submitNotification('${gameId}')" 
+                                        class="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2 rounded-lg font-bold text-white hover:from-cyan-400 hover:to-blue-500 transition-all duration-300">
+                                    ✅ ثبت درخواست
+                                </button>
+                                <button onclick="hideEmailForm('${gameId}')" 
+                                        class="bg-gray-600 px-6 py-2 rounded-lg font-bold text-white hover:bg-gray-500 transition-all duration-300">
+                                    ❌ انصراف
+                                </button>
+                            </div>
+                        </div>
+                        <div id="successMessage-${gameId}" class="hidden mt-4 p-4 bg-green-600/20 border border-green-500/50 rounded-lg">
+                            <p class="text-green-300 font-bold">✅ درخواست شما با موفقیت ثبت شد!</p>
+                            <p class="text-green-200 text-sm mt-1">به محض انتشار بازی، از طریق ایمیل مطلع خواهید شد.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('gameDetailContent').innerHTML = content;
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('gameDetailPage').classList.remove('hidden');
+            document.getElementById('gameDetailPage').classList.add('page-transition');
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToTeam() {
+            document.getElementById('teamSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToGames() {
+            document.getElementById('gamesSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Email notification functions
+        function showEmailForm(gameId) {
+            document.getElementById(`emailForm-${gameId}`).classList.remove('hidden');
+            document.getElementById(`successMessage-${gameId}`).classList.add('hidden');
+        }
+
+        function hideEmailForm(gameId) {
+            document.getElementById(`emailForm-${gameId}`).classList.add('hidden');
+            document.getElementById(`userEmail-${gameId}`).value = '';
+        }
+
+        function submitNotification(gameId) {
+            const emailInput = document.getElementById(`userEmail-${gameId}`);
+            const email = emailInput.value.trim();
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                // Show error message in Persian
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'mt-2 p-3 bg-red-600/20 border border-red-500/50 rounded-lg text-red-300 text-sm';
+                errorDiv.textContent = '❌ لطفاً یک ایمیل معتبر وارد کنید (مثال: user@example.com)';
+                
+                // Remove existing error if any
+                const existingError = document.querySelector(`#emailForm-${gameId} .bg-red-600\\/20`);
+                if (existingError) existingError.remove();
+                
+                // Add error message
+                document.getElementById(`emailForm-${gameId}`).appendChild(errorDiv);
+                
+                // Remove error after 3 seconds
+                setTimeout(() => errorDiv.remove(), 3000);
+                return;
+            }
+
+            const game = games[gameId];
+            
+            // Create a more detailed notification
+            const currentDate = new Date();
+            const persianDate = currentDate.toLocaleDateString('fa-IR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const persianTime = currentDate.toLocaleTimeString('fa-IR');
+            
+            const subject = `🎮 درخواست اطلاع‌رسانی: ${game.title}`;
+            const body = `سلام 👋
+
+یک کاربر جدید درخواست اطلاع‌رسانی انتشار بازی داده است:
+
+🎮 نام بازی: ${game.title}
+🎯 ژانر: ${game.genre}
+📧 ایمیل کاربر: ${email}
+📅 تاریخ: ${persianDate}
+🕐 ساعت: ${persianTime}
+
+📝 توضیحات:
+کاربر می‌خواهد هنگام انتشار بازی "${game.title}" از طریق ایمیل مطلع شود.
+
+✅ اقدامات لازم:
+- این ایمیل را در لیست اطلاع‌رسانی بازی اضافه کنید
+- هنگام انتشار، ایمیل اطلاع‌رسانی ارسال کنید
+
+🏢 استودیو بازی‌سازی نکسوس
+🤖 سیستم خودکار اطلاع‌رسانی`;
+
+            // Try to open email client
+            try {
+                // Replace with your actual email address
+                const yourEmail = "alam.81mohamad@gmail.com"; // 👈 اینجا ایمیل خودتون رو بذارید
+                const mailtoLink = `mailto:${yourEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                // Create a temporary link and click it
+                const tempLink = document.createElement('a');
+                tempLink.href = mailtoLink;
+                tempLink.style.display = 'none';
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+                
+                // Show success message
+                document.getElementById(`emailForm-${gameId}`).classList.add('hidden');
+                document.getElementById(`successMessage-${gameId}`).classList.remove('hidden');
+                
+                // Clear input
+                emailInput.value = '';
+                
+                // Also show a temporary success notification
+                showNotification('✅ درخواست شما ثبت شد! ایمیل اطلاع‌رسانی برای شما ارسال خواهد شد.', 'success');
+                
+            } catch (error) {
+                console.error('Error opening email client:', error);
+                showNotification('❌ خطا در باز کردن برنامه ایمیل. لطفاً دوباره تلاش کنید.', 'error');
+            }
+        }
+
+        // Helper function to show notifications
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full`;
+            
+            if (type === 'success') {
+                notification.className += ' bg-green-600 text-white border border-green-500';
+            } else if (type === 'error') {
+                notification.className += ' bg-red-600 text-white border border-red-500';
+            } else {
+                notification.className += ' bg-blue-600 text-white border border-blue-500';
+            }
+            
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200 ml-2">✕</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+
+        // Initialize page
+        showHome();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97bb149fb0c6291b',t:'MTc1NzI5OTIyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
