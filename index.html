@@ -250,77 +250,122 @@
             color: #00ffff;
             text-shadow: 0 0 10px #00ffff;
         }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .game-card:hover {
+                transform: translateY(-5px) scale(1.01);
+            }
+            
+            .team-card:hover {
+                transform: scale(1.02);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen">
     <!-- Navigation -->
-    <nav class="neon-nav p-4 sticky top-0 z-50">
+    <nav class="neon-nav p-3 sm:p-4 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center relative z-10">
-            <h1 class="text-2xl font-bold neon-text cursor-pointer" onclick="showHome()">🎮 استودیو نکسوس</h1>
-            <div class="space-x-6 space-x-reverse">
-                <button onclick="showHome()" class="hover:text-cyan-300 transition-all duration-300">خانه</button>
-                <button onclick="scrollToTeam()" class="hover:text-cyan-300 transition-all duration-300">تیم ما</button>
-                <button onclick="scrollToGames()" class="hover:text-cyan-300 transition-all duration-300">بازی‌ها</button>
+            <h1 class="text-lg sm:text-2xl font-bold neon-text cursor-pointer" onclick="showHome()">🎮 استودیو نکسوس</h1>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div class="space-x-3 sm:space-x-6 space-x-reverse">
+                    <button onclick="showHome()" class="text-sm sm:text-base hover:text-cyan-300 transition-all duration-300">خانه</button>
+                    <button onclick="scrollToTeam()" class="text-sm sm:text-base hover:text-cyan-300 transition-all duration-300">تیم ما</button>
+                    <button onclick="scrollToGames()" class="text-sm sm:text-base hover:text-cyan-300 transition-all duration-300">بازی‌ها</button>
+                </div>
+                <!-- Admin Panel Button -->
+                <button onclick="toggleAdminPanel()" class="bg-gray-700 hover:bg-gray-600 px-2 py-1 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm transition-colors">
+                    📊 <span class="notification-count bg-red-500 text-white rounded-full px-1 text-xs">0</span>
+                </button>
             </div>
         </div>
     </nav>
 
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 p-4">
+        <div class="max-w-4xl mx-auto bg-gray-800 rounded-lg h-full max-h-screen overflow-hidden flex flex-col">
+            <div class="p-4 sm:p-6 border-b border-gray-700 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                <h2 class="text-xl sm:text-2xl font-bold text-cyan-300">📊 مدیریت درخواست‌ها</h2>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="downloadNotificationsList()" 
+                            class="bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg text-sm transition-colors">
+                        📥 دانلود CSV
+                    </button>
+                    <button onclick="clearAllNotifications()" 
+                            class="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg text-sm transition-colors">
+                        🗑️ پاک کردن همه
+                    </button>
+                    <button onclick="toggleAdminPanel()" 
+                            class="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded-lg text-sm transition-colors">
+                        ✕ بستن
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+                <div id="notificationsList" class="space-y-3">
+                    <!-- Notifications will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Home Page -->
     <div id="homePage" class="page-transition">
         <!-- Hero Section -->
-        <section class="gaming-gradient py-20">
+        <section class="gaming-gradient py-12 sm:py-20">
             <div class="container mx-auto text-center px-4 relative z-10">
-                <h2 class="text-5xl font-bold mb-6 neon-text">به دنیای بازی‌های ما خوش آمدید</h2>
-                <p class="text-xl mb-8 max-w-2xl mx-auto">ما در استودیو نکسوس، بازی‌هایی خلق می‌کنیم که تجربه‌های فراموش‌نشدنی را برای شما به ارمغان می‌آورند</p>
-                <button onclick="scrollToGames()" class="neon-button px-8 py-3 rounded-full text-lg font-semibold">
+                <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 neon-text leading-tight">به دنیای بازی‌های ما خوش آمدید</h2>
+                <p class="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">ما در استودیو نکسوس، بازی‌هایی خلق می‌کنیم که تجربه‌های فراموش‌نشدنی را برای شما به ارمغان می‌آورند</p>
+                <button onclick="scrollToGames()" class="neon-button px-6 sm:px-8 py-2 sm:py-3 rounded-full text-base sm:text-lg font-semibold">
                     🎯 بازی‌ها را کاوش کنید
                 </button>
             </div>
         </section>
 
         <!-- Team Section -->
-        <section id="teamSection" class="py-16 bg-gray-900">
+        <section id="teamSection" class="py-12 sm:py-16 bg-gray-900">
             <div class="container mx-auto px-4">
-                <h3 class="text-4xl font-bold text-center mb-12 neon-text">🏆 تیم ما</h3>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="team-card p-6 rounded-lg text-center">
-                        <div class="w-24 h-24 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 neon-text">🏆 تیم ما</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <div class="team-card p-4 sm:p-6 rounded-lg text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center text-2xl sm:text-3xl">
                             👨‍💻
                         </div>
-                        <h4 class="text-xl font-semibold mb-2">علی احمدی</h4>
-                        <p class="text-cyan-300 mb-3">مدیر پروژه و طراح بازی</p>
-                        <p class="text-gray-300 text-sm">با ۸ سال تجربه در صنعت بازی‌سازی، رهبری تیم و خلق ایده‌های نوآورانه</p>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2">علی احمدی</h4>
+                        <p class="text-cyan-300 mb-2 sm:mb-3 text-sm sm:text-base">مدیر پروژه و طراح بازی</p>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">با ۸ سال تجربه در صنعت بازی‌سازی، رهبری تیم و خلق ایده‌های نوآورانه</p>
                     </div>
                     
-                    <div class="team-card p-6 rounded-lg text-center">
-                        <div class="w-24 h-24 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                    <div class="team-card p-4 sm:p-6 rounded-lg text-center">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center text-2xl sm:text-3xl">
                             🎨
                         </div>
-                        <h4 class="text-xl font-semibold mb-2">سارا محمدی</h4>
-                        <p class="text-pink-300 mb-3">هنرمند و طراح گرافیک</p>
-                        <p class="text-gray-300 text-sm">متخصص در طراحی کاراکتر و محیط‌های بازی با سبک منحصر به فرد</p>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2">سارا محمدی</h4>
+                        <p class="text-pink-300 mb-2 sm:mb-3 text-sm sm:text-base">هنرمند و طراح گرافیک</p>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">متخصص در طراحی کاراکتر و محیط‌های بازی با سبک منحصر به فرد</p>
                     </div>
                     
-                    <div class="team-card p-6 rounded-lg text-center">
-                        <div class="w-24 h-24 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                    <div class="team-card p-4 sm:p-6 rounded-lg text-center sm:col-span-2 lg:col-span-1">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center text-2xl sm:text-3xl">
                             ⚡
                         </div>
-                        <h4 class="text-xl font-semibold mb-2">رضا کریمی</h4>
-                        <p class="text-yellow-300 mb-3">برنامه‌نویس ارشد</p>
-                        <p class="text-gray-300 text-sm">کارشناس موتورهای بازی و بهینه‌سازی عملکرد با تکنولوژی‌های روز</p>
+                        <h4 class="text-lg sm:text-xl font-semibold mb-2">رضا کریمی</h4>
+                        <p class="text-yellow-300 mb-2 sm:mb-3 text-sm sm:text-base">برنامه‌نویس ارشد</p>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">کارشناس موتورهای بازی و بهینه‌سازی عملکرد با تکنولوژی‌های روز</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Games Gallery -->
-        <section id="gamesSection" class="py-16 bg-gray-900">
+        <section id="gamesSection" class="py-12 sm:py-16 bg-gray-900">
             <div class="container mx-auto px-4">
-                <h3 class="text-4xl font-bold text-center mb-12 neon-text">🎮 بازی‌های ما</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 neon-text">🎮 بازی‌های ما</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     <!-- Game 1 -->
-                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('shadowRealm')">
-                        <div class="game-poster h-48 bg-gradient-to-br from-purple-600 to-indigo-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                    <div class="game-card p-4 sm:p-6 rounded-lg cursor-pointer" onclick="showGameDetail('shadowRealm')">
+                        <div class="game-poster h-40 sm:h-48 bg-gradient-to-br from-purple-600 to-indigo-800 rounded-lg mb-3 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
                                 <!-- Dark castle silhouette -->
                                 <defs>
@@ -348,17 +393,17 @@
                                 <circle cx="100" cy="60" r="8" fill="#c084fc" opacity="0.8"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-2">قلمرو سایه‌ها</h4>
-                        <p class="text-gray-300 text-sm">یک بازی نقش‌آفرینی حماسی در دنیایی تاریک و مرموز</p>
-                        <div class="mt-4 flex justify-between text-sm">
+                        <h4 class="text-lg sm:text-xl font-bold mb-2">قلمرو سایه‌ها</h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">یک بازی نقش‌آفرینی حماسی در دنیایی تاریک و مرموز</p>
+                        <div class="mt-3 sm:mt-4 flex justify-between text-xs sm:text-sm">
                             <span class="bg-purple-600 px-2 py-1 rounded">RPG</span>
                             <span class="text-purple-300">⭐ 4.8/5</span>
                         </div>
                     </div>
 
                     <!-- Game 2 -->
-                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('cyberRush')">
-                        <div class="game-poster h-48 bg-gradient-to-br from-cyan-500 to-blue-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                    <div class="game-card p-4 sm:p-6 rounded-lg cursor-pointer" onclick="showGameDetail('cyberRush')">
+                        <div class="game-poster h-40 sm:h-48 bg-gradient-to-br from-cyan-500 to-blue-700 rounded-lg mb-3 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
                                 <defs>
                                     <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -398,17 +443,17 @@
                                 <circle cx="100" cy="100" r="45" fill="none" stroke="#00ffff" stroke-width="2" opacity="0.3"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-2">سایبر راش</h4>
-                        <p class="text-gray-300 text-sm">بازی اکشن سریع در آینده‌ای سایبرپانک</p>
-                        <div class="mt-4 flex justify-between text-sm">
+                        <h4 class="text-lg sm:text-xl font-bold mb-2">سایبر راش</h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">بازی اکشن سریع در آینده‌ای سایبرپانک</p>
+                        <div class="mt-3 sm:mt-4 flex justify-between text-xs sm:text-sm">
                             <span class="bg-cyan-600 px-2 py-1 rounded">Action</span>
                             <span class="text-cyan-300">⭐ 4.6/5</span>
                         </div>
                     </div>
 
                     <!-- Game 3 -->
-                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('mysticForest')">
-                        <div class="game-poster h-48 bg-gradient-to-br from-green-500 to-emerald-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                    <div class="game-card p-4 sm:p-6 rounded-lg cursor-pointer" onclick="showGameDetail('mysticForest')">
+                        <div class="game-poster h-40 sm:h-48 bg-gradient-to-br from-green-500 to-emerald-700 rounded-lg mb-3 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
                                 <defs>
                                     <linearGradient id="forestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -442,17 +487,17 @@
                                 <polygon points="100,30 105,40 95,40" fill="#84cc16" opacity="0.6"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-2">جنگل اسرارآمیز</h4>
-                        <p class="text-gray-300 text-sm">ماجراجویی آرام و معماگونه در طبیعت جادویی</p>
-                        <div class="mt-4 flex justify-between text-sm">
+                        <h4 class="text-lg sm:text-xl font-bold mb-2">جنگل اسرارآمیز</h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">ماجراجویی آرام و معماگونه در طبیعت جادویی</p>
+                        <div class="mt-3 sm:mt-4 flex justify-between text-xs sm:text-sm">
                             <span class="bg-green-600 px-2 py-1 rounded">Adventure</span>
                             <span class="text-green-300">⭐ 4.9/5</span>
                         </div>
                     </div>
 
                     <!-- Game 4 -->
-                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('spaceOdyssey')">
-                        <div class="game-poster h-48 bg-gradient-to-br from-indigo-600 to-purple-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                    <div class="game-card p-4 sm:p-6 rounded-lg cursor-pointer" onclick="showGameDetail('spaceOdyssey')">
+                        <div class="game-poster h-40 sm:h-48 bg-gradient-to-br from-indigo-600 to-purple-800 rounded-lg mb-3 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
                                 <defs>
                                     <radialGradient id="spaceGrad" cx="50%" cy="50%" r="50%">
@@ -490,17 +535,17 @@
                                 <ellipse cx="120" cy="160" rx="25" ry="18" fill="#c084fc" opacity="0.2"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-2">ادیسه فضایی</h4>
-                        <p class="text-gray-300 text-sm">شبیه‌ساز فضایی با کاوش کهکشان‌های بی‌نهایت</p>
-                        <div class="mt-4 flex justify-between text-sm">
+                        <h4 class="text-lg sm:text-xl font-bold mb-2">ادیسه فضایی</h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">شبیه‌ساز فضایی با کاوش کهکشان‌های بی‌نهایت</p>
+                        <div class="mt-3 sm:mt-4 flex justify-between text-xs sm:text-sm">
                             <span class="bg-indigo-600 px-2 py-1 rounded">Simulation</span>
                             <span class="text-indigo-300">⭐ 4.7/5</span>
                         </div>
                     </div>
 
                     <!-- Game 5 -->
-                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('dragonLegends')">
-                        <div class="game-poster h-48 bg-gradient-to-br from-red-600 to-orange-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                    <div class="game-card p-4 sm:p-6 rounded-lg cursor-pointer" onclick="showGameDetail('dragonLegends')">
+                        <div class="game-poster h-40 sm:h-48 bg-gradient-to-br from-red-600 to-orange-700 rounded-lg mb-3 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
                                 <defs>
                                     <linearGradient id="dragonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -538,17 +583,17 @@
                                 <circle cx="100" cy="100" r="60" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.3"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-2">افسانه اژدهایان</h4>
-                        <p class="text-gray-300 text-sm">بازی استراتژیک با اژدهایان و جادوگری</p>
-                        <div class="mt-4 flex justify-between text-sm">
+                        <h4 class="text-lg sm:text-xl font-bold mb-2">افسانه اژدهایان</h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">بازی استراتژیک با اژدهایان و جادوگری</p>
+                        <div class="mt-3 sm:mt-4 flex justify-between text-xs sm:text-sm">
                             <span class="bg-red-600 px-2 py-1 rounded">Strategy</span>
                             <span class="text-red-300">⭐ 4.5/5</span>
                         </div>
                     </div>
 
                     <!-- Game 6 -->
-                    <div class="game-card p-6 rounded-lg cursor-pointer" onclick="showGameDetail('neonRacer')">
-                        <div class="game-poster h-48 bg-gradient-to-br from-pink-500 to-violet-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+                    <div class="game-card p-4 sm:p-6 rounded-lg cursor-pointer" onclick="showGameDetail('neonRacer')">
+                        <div class="game-poster h-40 sm:h-48 bg-gradient-to-br from-pink-500 to-violet-700 rounded-lg mb-3 sm:mb-4 flex items-center justify-center overflow-hidden relative">
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
                                 <defs>
                                     <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -590,9 +635,9 @@
                                 <rect x="162" y="80" width="2" height="90" fill="#a855f7" opacity="0.8"/>
                             </svg>
                         </div>
-                        <h4 class="text-xl font-bold mb-2">مسابقه نئونی</h4>
-                        <p class="text-gray-300 text-sm">بازی مسابقه‌ای با سرعت بالا در شهر آینده</p>
-                        <div class="mt-4 flex justify-between text-sm">
+                        <h4 class="text-lg sm:text-xl font-bold mb-2">مسابقه نئونی</h4>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">بازی مسابقه‌ای با سرعت بالا در شهر آینده</p>
+                        <div class="mt-3 sm:mt-4 flex justify-between text-xs sm:text-sm">
                             <span class="bg-pink-600 px-2 py-1 rounded">Racing</span>
                             <span class="text-pink-300">⭐ 4.4/5</span>
                         </div>
@@ -602,54 +647,54 @@
         </section>
 
         <!-- Social Media Footer -->
-        <footer class="py-16 bg-black border-t border-gray-800">
+        <footer class="py-12 sm:py-16 bg-black border-t border-gray-800">
             <div class="container mx-auto px-4 text-center">
-                <h3 class="text-3xl font-bold mb-8 neon-text">🌐 ما را دنبال کنید</h3>
-                <div class="flex justify-center gap-8 mb-8">
+                <h3 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 neon-text">🌐 ما را دنبال کنید</h3>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-8 mb-6 sm:mb-8">
                     <!-- Instagram - اینجا لینک اینستاگرام خودتون رو بذارید -->
-                    <a href="https://instagram.com/_mhmd_al_" class="social-icon group">
-                        <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-pink-500/50">
+                    <a href="https://instagram.com/your_username" class="social-icon group">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-lg sm:text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-pink-500/50">
                             📷
                         </div>
-                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-pink-400 transition-colors">Instagram</span>
+                        <span class="block mt-1 sm:mt-2 text-xs sm:text-sm text-gray-400 group-hover:text-pink-400 transition-colors">Instagram</span>
                     </a>
                     
                     <!-- Telegram - اینجا لینک تلگرام خودتون رو بذارید -->
-                    <a href="https://t.me/Psychosips" class="social-icon group">
-                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-500/50">
+                    <a href="https://t.me/your_channel" class="social-icon group">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-lg sm:text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-500/50">
                             ✈️
                         </div>
-                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-cyan-400 transition-colors">Telegram</span>
+                        <span class="block mt-1 sm:mt-2 text-xs sm:text-sm text-gray-400 group-hover:text-cyan-400 transition-colors">Telegram</span>
                     </a>
                     
                     <!-- Twitter - اینجا لینک توییتر خودتون رو بذارید -->
-                    <a href="https://twitter.com/TheCnn3r" class="social-icon group">
-                        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/50">
+                    <a href="https://twitter.com/your_username" class="social-icon group">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-lg sm:text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-blue-500/50">
                             🐦
                         </div>
-                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-blue-400 transition-colors">Twitter</span>
+                        <span class="block mt-1 sm:mt-2 text-xs sm:text-sm text-gray-400 group-hover:text-blue-400 transition-colors">Twitter</span>
                     </a>
                     
                     <!-- YouTube - اینجا لینک یوتیوب خودتون رو بذارید -->
-                    <a href="https://youtube.com/@mhammad4307" class="social-icon group">
-                        <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-red-500/50">
+                    <a href="https://youtube.com/@your_channel" class="social-icon group">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-lg sm:text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-red-500/50">
                             📺
                         </div>
-                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-red-400 transition-colors">YouTube</span>
+                        <span class="block mt-1 sm:mt-2 text-xs sm:text-sm text-gray-400 group-hover:text-red-400 transition-colors">YouTube</span>
                     </a>
                     
                     <!-- Discord - اینجا لینک دیسکورد خودتون رو بذارید -->
-                    <a href="https://discord.gg/psycho.mind" class="social-icon group">
-                        <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-purple-500/50">
+                    <a href="https://discord.gg/your_server" class="social-icon group">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-lg sm:text-2xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-purple-500/50">
                             🎮
                         </div>
-                        <span class="block mt-2 text-sm text-gray-400 group-hover:text-purple-400 transition-colors">Discord</span>
+                        <span class="block mt-1 sm:mt-2 text-xs sm:text-sm text-gray-400 group-hover:text-purple-400 transition-colors">Discord</span>
                     </a>
                 </div>
                 
-                <div class="border-t border-gray-800 pt-8">
-                    <p class="text-gray-500 mb-2">© 2024 استودیو بازی‌سازی نکسوس. تمامی حقوق محفوظ است.</p>
-                    <p class="text-gray-600 text-sm">ساخته شده با ❤️ برای گیمرهای ایرانی</p>
+                <div class="border-t border-gray-800 pt-6 sm:pt-8">
+                    <p class="text-gray-500 mb-2 text-sm sm:text-base">© 2024 استودیو بازی‌سازی نکسوس. تمامی حقوق محفوظ است.</p>
+                    <p class="text-gray-600 text-xs sm:text-sm">ساخته شده با ❤️ برای گیمرهای ایرانی</p>
                 </div>
             </div>
         </footer>
@@ -657,8 +702,8 @@
 
     <!-- Game Detail Pages -->
     <div id="gameDetailPage" class="hidden page-transition">
-        <div class="container mx-auto px-4 py-8">
-            <button onclick="showHome()" class="back-btn px-6 py-3 rounded-full mb-8 flex items-center gap-2 text-white font-semibold">
+        <div class="container mx-auto px-4 py-6 sm:py-8">
+            <button onclick="showHome()" class="back-btn px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6 sm:mb-8 flex items-center gap-2 text-white font-semibold text-sm sm:text-base">
                 ← بازگشت به خانه
             </button>
             <div id="gameDetailContent"></div>
@@ -886,93 +931,93 @@
             }
         };
 
-        function showHome() {
-            document.getElementById('homePage').classList.remove('hidden');
-            document.getElementById('gameDetailPage').classList.add('hidden');
-            document.getElementById('homePage').classList.add('page-transition');
-        }
-
-        function showGameDetail(gameId) {
+        // Local Storage Management
+        function saveNotificationRequest(email, gameId) {
             const game = games[gameId];
-            if (!game) return;
-
-            const content = `
-                <div class="bg-gradient-to-r ${game.gradient} p-8 rounded-lg mb-8 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
-                    <div class="flex items-center gap-6 mb-6 relative z-10">
-                        <div class="w-24 h-24 rounded-lg overflow-hidden border-2 border-white/30">${game.poster}</div>
-                        <div>
-                            <h1 class="text-4xl font-bold mb-2 neon-text">${game.title}</h1>
-                            <div class="flex gap-4 text-lg">
-                                <span class="bg-black bg-opacity-30 px-3 py-1 rounded">🎮 ${game.genre}</span>
-                                <span class="bg-black bg-opacity-30 px-3 py-1 rounded">⏱️ ${game.gameplay}</span>
-                                <span class="bg-black bg-opacity-30 px-3 py-1 rounded">⭐ ${game.rating}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-gray-800 p-6 rounded-lg border border-cyan-500/30 hover:border-cyan-500/60 transition-all duration-300">
-                        <h3 class="text-2xl font-bold mb-4 text-cyan-300">📖 داستان بازی</h3>
-                        <p class="text-gray-300 leading-relaxed">${game.story}</p>
-                    </div>
-
-                    <div class="bg-gray-800 p-6 rounded-lg border border-pink-500/30 hover:border-pink-500/60 transition-all duration-300">
-                        <h3 class="text-2xl font-bold mb-4 text-pink-300">✨ ویژگی‌های کلیدی</h3>
-                        <ul class="space-y-2">
-                            ${game.features.map(feature => `
-                                <li class="flex items-center gap-2 text-gray-300">
-                                    <span class="text-pink-400">▶</span>
-                                    ${feature}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="mt-8 bg-gradient-to-r from-cyan-600/20 to-pink-600/20 p-6 rounded-lg text-center border border-cyan-500/30">
-                    <h3 class="text-2xl font-bold mb-4 neon-text">🎯 آماده برای تجربه؟</h3>
-                    <p class="mb-4">این بازی در حال توسعه است و به زودی منتشر خواهد شد!</p>
-                    <div id="notifyForm-${gameId}" class="space-y-4">
-                        <button onclick="showEmailForm('${gameId}')" class="neon-button px-6 py-3 rounded-full font-bold">
-                            🔔 از انتشار مطلع شوید
-                        </button>
-                        <div id="emailForm-${gameId}" class="hidden mt-4 space-y-3">
-                            <input type="email" id="userEmail-${gameId}" placeholder="ایمیل خود را وارد کنید..." 
-                                   class="w-full max-w-md mx-auto px-4 py-3 bg-gray-800 border border-cyan-500/50 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30">
-                            <div class="flex gap-3 justify-center">
-                                <button onclick="submitNotification('${gameId}')" 
-                                        class="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2 rounded-lg font-bold text-white hover:from-cyan-400 hover:to-blue-500 transition-all duration-300">
-                                    ✅ ثبت درخواست
-                                </button>
-                                <button onclick="hideEmailForm('${gameId}')" 
-                                        class="bg-gray-600 px-6 py-2 rounded-lg font-bold text-white hover:bg-gray-500 transition-all duration-300">
-                                    ❌ انصراف
-                                </button>
-                            </div>
-                        </div>
-                        <div id="successMessage-${gameId}" class="hidden mt-4 p-4 bg-green-600/20 border border-green-500/50 rounded-lg">
-                            <p class="text-green-300 font-bold">✅ درخواست شما با موفقیت ثبت شد!</p>
-                            <p class="text-green-200 text-sm mt-1">به محض انتشار بازی، از طریق ایمیل مطلع خواهید شد.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('gameDetailContent').innerHTML = content;
-            document.getElementById('homePage').classList.add('hidden');
-            document.getElementById('gameDetailPage').classList.remove('hidden');
-            document.getElementById('gameDetailPage').classList.add('page-transition');
-            window.scrollTo(0, 0);
+            const currentDate = new Date();
+            const persianDate = currentDate.toLocaleDateString('fa-IR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const persianTime = currentDate.toLocaleTimeString('fa-IR');
+            
+            const request = {
+                id: Date.now(),
+                email: email,
+                gameTitle: game.title,
+                gameId: gameId,
+                genre: game.genre,
+                date: persianDate,
+                time: persianTime,
+                timestamp: currentDate.getTime()
+            };
+            
+            // Get existing requests
+            let requests = JSON.parse(localStorage.getItem('gameNotifications') || '[]');
+            
+            // Check if email already exists for this game
+            const existingRequest = requests.find(r => r.email === email && r.gameId === gameId);
+            if (existingRequest) {
+                showNotification('⚠️ این ایمیل قبلاً برای این بازی ثبت شده است.', 'warning');
+                return false;
+            }
+            
+            // Add new request
+            requests.push(request);
+            
+            // Save to localStorage
+            localStorage.setItem('gameNotifications', JSON.stringify(requests));
+            
+            return true;
         }
 
-        function scrollToTeam() {
-            document.getElementById('teamSection').scrollIntoView({ behavior: 'smooth' });
+        function getNotificationRequests() {
+            return JSON.parse(localStorage.getItem('gameNotifications') || '[]');
         }
 
-        function scrollToGames() {
-            document.getElementById('gamesSection').scrollIntoView({ behavior: 'smooth' });
+        function downloadNotificationsList() {
+            const requests = getNotificationRequests();
+            if (requests.length === 0) {
+                showNotification('📝 هیچ درخواستی ثبت نشده است.', 'info');
+                return;
+            }
+            
+            // Create CSV content
+            let csvContent = "ردیف,ایمیل,نام بازی,ژانر,تاریخ,ساعت\n";
+            requests.forEach((request, index) => {
+                csvContent += `${index + 1},"${request.email}","${request.gameTitle}","${request.genre}","${request.date}","${request.time}"\n`;
+            });
+            
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `game-notifications-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('📥 فایل لیست درخواست‌ها دانلود شد!', 'success');
+        }
+
+        function clearAllNotifications() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید تمام درخواست‌ها را پاک کنید؟')) {
+                localStorage.removeItem('gameNotifications');
+                showNotification('🗑️ تمام درخواست‌ها پاک شدند.', 'success');
+                updateNotificationCount();
+                loadNotificationsList();
+            }
+        }
+
+        function updateNotificationCount() {
+            const requests = getNotificationRequests();
+            const countElements = document.querySelectorAll('.notification-count');
+            countElements.forEach(el => {
+                el.textContent = requests.length;
+            });
         }
 
         // Email notification functions
@@ -1010,6 +1055,10 @@
                 return;
             }
 
+            // Save to localStorage first
+            const saved = saveNotificationRequest(email, gameId);
+            if (!saved) return;
+
             const game = games[gameId];
             
             // Create a more detailed notification
@@ -1045,7 +1094,7 @@
             // Try to open email client
             try {
                 // Replace with your actual email address
-                const yourEmail = "alam.81mohamad@gmail.com"; // 👈 اینجا ایمیل خودتون رو بذارید
+                const yourEmail = "your-email@example.com"; // 👈 اینجا ایمیل خودتون رو بذارید
                 const mailtoLink = `mailto:${yourEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                 
                 // Create a temporary link and click it
@@ -1063,6 +1112,9 @@
                 // Clear input
                 emailInput.value = '';
                 
+                // Update notification count
+                updateNotificationCount();
+                
                 // Also show a temporary success notification
                 showNotification('✅ درخواست شما ثبت شد! ایمیل اطلاع‌رسانی برای شما ارسال خواهد شد.', 'success');
                 
@@ -1075,20 +1127,22 @@
         // Helper function to show notifications
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full`;
+            notification.className = `fixed top-4 right-4 z-50 p-3 rounded-lg shadow-lg max-w-xs sm:max-w-sm transform transition-all duration-300 translate-x-full text-sm sm:text-base`;
             
             if (type === 'success') {
                 notification.className += ' bg-green-600 text-white border border-green-500';
             } else if (type === 'error') {
                 notification.className += ' bg-red-600 text-white border border-red-500';
+            } else if (type === 'warning') {
+                notification.className += ' bg-yellow-600 text-white border border-yellow-500';
             } else {
                 notification.className += ' bg-blue-600 text-white border border-blue-500';
             }
             
             notification.innerHTML = `
                 <div class="flex items-center gap-2">
-                    <span>${message}</span>
-                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200 ml-2">✕</button>
+                    <span class="flex-1">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200 text-lg leading-none">✕</button>
                 </div>
             `;
             
@@ -1106,8 +1160,148 @@
             }, 5000);
         }
 
+        // Admin panel functions
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            const isHidden = panel.classList.contains('hidden');
+            
+            if (isHidden) {
+                panel.classList.remove('hidden');
+                loadNotificationsList();
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function loadNotificationsList() {
+            const requests = getNotificationRequests();
+            const listContainer = document.getElementById('notificationsList');
+            
+            if (requests.length === 0) {
+                listContainer.innerHTML = '<p class="text-gray-400 text-center py-8">هیچ درخواستی ثبت نشده است.</p>';
+                return;
+            }
+            
+            const listHTML = requests.map((request, index) => `
+                <div class="bg-gray-700 p-4 rounded-lg border border-gray-600">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                        <div class="flex-1">
+                            <p class="font-bold text-cyan-300">${index + 1}. ${request.email}</p>
+                            <p class="text-sm text-gray-300">🎮 ${request.gameTitle}</p>
+                            <p class="text-sm text-gray-400">📅 ${request.date} - ${request.time}</p>
+                        </div>
+                        <button onclick="deleteNotification(${request.id})" 
+                                class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition-colors self-start">
+                            🗑️ حذف
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            listContainer.innerHTML = listHTML;
+        }
+
+        function deleteNotification(id) {
+            let requests = getNotificationRequests();
+            requests = requests.filter(r => r.id !== id);
+            localStorage.setItem('gameNotifications', JSON.stringify(requests));
+            loadNotificationsList();
+            updateNotificationCount();
+            showNotification('✅ درخواست حذف شد.', 'success');
+        }
+
+        function showHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('gameDetailPage').classList.add('hidden');
+            document.getElementById('homePage').classList.add('page-transition');
+        }
+
+        function showGameDetail(gameId) {
+            const game = games[gameId];
+            if (!game) return;
+
+            const content = `
+                <div class="bg-gradient-to-r ${game.gradient} p-6 sm:p-8 rounded-lg mb-6 sm:mb-8 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-4 sm:mb-6 relative z-10">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 border-white/30 flex-shrink-0">${game.poster}</div>
+                        <div class="text-center sm:text-right">
+                            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-2 neon-text">${game.title}</h1>
+                            <div class="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 text-sm sm:text-lg">
+                                <span class="bg-black bg-opacity-30 px-2 sm:px-3 py-1 rounded">🎮 ${game.genre}</span>
+                                <span class="bg-black bg-opacity-30 px-2 sm:px-3 py-1 rounded">⏱️ ${game.gameplay}</span>
+                                <span class="bg-black bg-opacity-30 px-2 sm:px-3 py-1 rounded">⭐ ${game.rating}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6 sm:gap-8">
+                    <div class="bg-gray-800 p-4 sm:p-6 rounded-lg border border-cyan-500/30 hover:border-cyan-500/60 transition-all duration-300">
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-cyan-300">📖 داستان بازی</h3>
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">${game.story}</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-4 sm:p-6 rounded-lg border border-pink-500/30 hover:border-pink-500/60 transition-all duration-300">
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-pink-300">✨ ویژگی‌های کلیدی</h3>
+                        <ul class="space-y-2">
+                            ${game.features.map(feature => `
+                                <li class="flex items-center gap-2 text-gray-300 text-sm sm:text-base">
+                                    <span class="text-pink-400">▶</span>
+                                    ${feature}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-6 sm:mt-8 bg-gradient-to-r from-cyan-600/20 to-pink-600/20 p-4 sm:p-6 rounded-lg text-center border border-cyan-500/30">
+                    <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 neon-text">🎯 آماده برای تجربه؟</h3>
+                    <p class="mb-3 sm:mb-4 text-sm sm:text-base">این بازی در حال توسعه است و به زودی منتشر خواهد شد!</p>
+                    <div id="notifyForm-${gameId}" class="space-y-3 sm:space-y-4">
+                        <button onclick="showEmailForm('${gameId}')" class="neon-button px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base">
+                            🔔 از انتشار مطلع شوید
+                        </button>
+                        <div id="emailForm-${gameId}" class="hidden mt-3 sm:mt-4 space-y-3">
+                            <input type="email" id="userEmail-${gameId}" placeholder="ایمیل خود را وارد کنید..." 
+                                   class="w-full max-w-md mx-auto px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 border border-cyan-500/50 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30 text-sm sm:text-base">
+                            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
+                                <button onclick="submitNotification('${gameId}')" 
+                                        class="bg-gradient-to-r from-cyan-500 to-blue-600 px-4 sm:px-6 py-2 rounded-lg font-bold text-white hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 text-sm sm:text-base">
+                                    ✅ ثبت درخواست
+                                </button>
+                                <button onclick="hideEmailForm('${gameId}')" 
+                                        class="bg-gray-600 px-4 sm:px-6 py-2 rounded-lg font-bold text-white hover:bg-gray-500 transition-all duration-300 text-sm sm:text-base">
+                                    ❌ انصراف
+                                </button>
+                            </div>
+                        </div>
+                        <div id="successMessage-${gameId}" class="hidden mt-3 sm:mt-4 p-3 sm:p-4 bg-green-600/20 border border-green-500/50 rounded-lg">
+                            <p class="text-green-300 font-bold text-sm sm:text-base">✅ درخواست شما با موفقیت ثبت شد!</p>
+                            <p class="text-green-200 text-xs sm:text-sm mt-1">به محض انتشار بازی، از طریق ایمیل مطلع خواهید شد.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('gameDetailContent').innerHTML = content;
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('gameDetailPage').classList.remove('hidden');
+            document.getElementById('gameDetailPage').classList.add('page-transition');
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToTeam() {
+            document.getElementById('teamSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToGames() {
+            document.getElementById('gamesSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
         // Initialize page
         showHome();
+        updateNotificationCount();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97bb149fb0c6291b',t:'MTc1NzI5OTIyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c3365d85ea9765',t:'MTc1NzM4NDQ4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
